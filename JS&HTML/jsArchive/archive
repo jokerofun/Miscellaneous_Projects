@@ -1,0 +1,758 @@
+const input = ['append hello',
+    'append again',
+    'removeStart 3',
+    'removeEnd 4',
+    'print'
+]
+
+const operations = {
+    current: "",
+    append: function (str) {
+        this.current += str;
+
+        return this;
+    },
+    removeStart: function (index) {
+        this.current = this.current.slice(0, index);
+
+        return this;
+    },
+    removeEnd: function (index) {
+        this.current = this.current.slice(0, this.current.length - index);
+
+        return this;
+    },
+    print: function () {
+        console.log(this.current);
+
+        return this;
+
+    },
+    execute: function (input) {
+        input.forEach((el) => {
+            const parts = el.split(" ");
+
+            this[parts[0]].call(this, parts[1]);
+        });
+    }
+};
+
+operations.execute(input);
+
+
+
+-- -- -- -- -- -- -- -
+
+
+function sortArray(array, order) {
+    if (order === 'asc') {
+        return (array.sort((a, b) => {
+            return a - b;
+        }));
+    } else {
+        return (array.sort((a, b) => {
+            return b - a;
+        }));
+    }
+}
+console.log(sortArray([14, 7, 17, 6, 8], 'asc'));
+
+
+-- -- -- -- -- -- -- -- -
+
+
+function sortArray(array, order) {
+    if (order === 'asc') {
+        return (array.sort((a, b) => {
+            return a - b;
+        }));
+    } else {
+        return (array.sort((a, b) => {
+            return b - a;
+        }));
+    }
+}
+console.log(sortArray([14, 7, 17, 6, 8], 'asc'));
+
+
+-- -- -- -- -- -- --
+
+
+function BMI() {
+    function getStatus() {
+        if (bmi < 18.5) {
+            return "underweight";
+        } else if (bmi < 25) {
+            return "normal";
+        } else if (bmi < 30) {
+            return "overweight";
+        } else {
+            return "obese";
+        }
+    }
+    let [name, age, weight, height] = arguments;
+    let heightInMeters = height / 100;
+    let bmi = weight / Math.pow(heightInMeters, 2);
+
+    let status = getStatus();
+
+    let evaluation = {
+        name: name,
+        personalInfo: {
+            age: age,
+            weight: weight,
+            height: height
+        },
+        BMI: Math.round(bmi),
+        status: status
+    };
+
+    if (status === 'obese') {
+        evaluation.recommendation = 'admission required';
+    }
+
+    return evaluation;
+
+}
+console.log(BMI("Peter", 19, 56, 173));
+
+
+-- -- -- -- -- -- --
+
+
+let solution = (function () {
+    function add(vector1, vector2) {
+        return [vector1[0] + vector2[0], vector1[1] + vector2[1]];
+    }
+
+    function multiply(vector1, scalar) {
+        return [vector1[0] * scalar, vector1[1] * scalar];
+    }
+
+    function length(vector1) {
+        return Math.sqrt(vector1[0] * vector1[0] + vector1[1] * vector1[1]);
+    }
+
+    function dot(vector1, vector2) {
+        return vector1[0] * vector2[0] + vector1[1] * vector2[1];
+    }
+
+    function cross(vector1, vector2) {
+        return vector1[0] * vector2[1] - vector1[1] * vector2[0];
+    }
+
+    return {
+        add: add,
+        multiply: multiply,
+        length: length,
+        dot: dot,
+        cross: cross
+    };
+})();
+console.log(solution.add([1, 1], [1, 0]));
+console.log(solution.multiply([3.5, -2], 2));
+console.log(solution.length([3, -4]));
+console.log(solution.dot([1, 0], [0, -1]));
+console.log(solution.cross([3, 7], [1, 0]));
+
+
+-- -- -- -- -- -
+
+
+const service = (() => {
+    let collection = [];
+
+    function add(item) {
+        collection.push(item);
+    }
+
+    function remove(item) {
+        collection = collection.filter((el) => {
+            return el !== item;
+        });
+    }
+
+    function print() {
+        console.log(collection.join(", "));
+    }
+    return {
+        add,
+        remove,
+        print
+    }
+})();
+
+const input = ['add hello', 'add again', 'remove hello', 'add again', 'print'];
+
+input.forEach((el) => {
+    const action = el.split(" ");
+
+    service[action[0]](action[1]);
+});
+
+
+-- -- -- -- -- -- -- -
+
+
+const worker = {
+    weight: 80,
+    experience: 1,
+    bloodAlcoholLevel: 0,
+    handsShaking: true
+};
+
+
+function fixWorker(workerObj) {
+    if (!workerObj.handsShaking) {
+        return Object.create(workerObj);
+    }
+
+    const newWorker = Object.create(workerObj);
+
+    newWorker.bloodAlcoholLevel += 0.1 * newWorker.weight * newWorker.experience;
+    newWorker.handsShaking = false;
+
+    return newWorker;
+}
+
+
+console.log(JSON.stringify(fixWorker({
+    weight: 120,
+    experience: 20,
+    bloodAlcoholLevel: 200,
+    handsShaking: true
+})));
+
+
+-- -- -- -- -- -
+
+
+(() => {
+    String.prototype.ensureStart = function (str) {
+        const currentStr = this.valueOf();
+
+        if (currentStr.indexOf(str) === 0) {
+            return currentStr;
+        }
+
+        return str + currentStr;
+
+    };
+
+    String.prototype.isEmpty = function () {
+        return this.valueOf() === "";
+    };
+})();
+
+let str = 'my string';
+str = str.ensureStart('my');
+str = str.ensureStart('hello');
+console.log(str);
+
+
+-- -- -- -- -- --
+
+
+function modifyCar(initialCarParts) {
+    let modifiedCar = {};
+    modifiedCar.model = initialCarParts.model;
+    let engine;
+
+    if (initialCarParts.power <= 90) {
+        engine = {
+            power: 90,
+            volume: 1800
+        };
+    } else if (initialCarParts.power <= 120) {
+        engine = {
+            power: 120,
+            volume: 2400
+        };
+    } else if (initialCarParts.power <= 200) {
+        engine = {
+            power: 200,
+            volume: 3500
+        };
+    }
+    modifiedCar.engine = engine;
+    modifiedCar.carriage = {
+        type: initialCarParts.carriage,
+        color: initialCarParts.color
+    };
+
+    if (initialCarParts.wheelsize % 2 === 0) {
+        initialCarParts.wheelsize--;
+    }
+    let wheels = [];
+    for (i = 0; i < 4; i++) {
+        wheels.push(initialCarParts.wheelsize);
+    }
+    modifiedCar.wheels = wheels;
+    return modifiedCar;
+}
+modifyCar({
+    model: 'VW Golf II',
+    power: 90,
+    color: 'blue',
+    carriage: 'hatchback',
+    wheelsize: 14
+});
+
+
+-- -- -- -- -- -- -- --
+
+
+function getSorted() {
+    return {
+        list: [],
+        size: 0,
+        add: function (element) {
+            this.list.push(element);
+            this.size++;
+            this.sort();
+        },
+        remove: function (index) {
+            if (index >= 0 && index < this.list.length) {
+                this.list.splice(index, 1);
+                this.size--;
+            }
+        },
+        get: function (index) {
+            if (index >= 0 && index < this.list.length) {
+                return this.list[index];
+            }
+
+        },
+        sort: function () {
+            this.list.sort((a, b) => a - b);
+        }
+    };
+}
+
+//testove
+let sorted = getSorted();
+
+sorted.add(15);
+sorted.add(13);
+sorted.add(-15);
+sorted.add(0);
+console.log(sorted.list);
+console.log("Current size:" + sorted.size);
+sorted.remove(3);
+console.log("Current size:" + sorted.size);
+console.log("Element in index 1: " + sorted.get(1));
+console.log("Current size:" + sorted.size);
+
+
+---------------
+
+
+class Rectangle {
+    constructor(width, height, color) {
+        this.width = width;
+        this.height = height;
+        this.color = color;
+    }
+
+    calcArea() {
+        return this.width * this.height;
+    }
+}
+
+let rect = new Rectangle(4, 5, 'red');
+console.log(rect.width);
+console.log(rect.height);
+console.log(rect.color);
+console.log(rect.calcArea());
+
+
+---------------
+
+
+function Person(firstName,lastName,age,email){
+    this.firstName=firstName;
+    this.lastName=lastName;
+    this.age=age;
+    this.email=email;
+}
+
+Person.prototype.toString=function(){
+    return `${this.firstName} ${this.lastName} (age:${this.age}, email ${this.email})`;
+};
+
+let person = new Person('Maria', 'Petrova', 22, 'mp@yahoo.com');
+console.log(person.toString());
+
+
+--------------------------
+
+
+function Person(firstName = "", lastName = "", age = "", email = "") {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+    this.email = email;
+}
+
+Person.prototype.toString = function () {
+    return `${this.firstName} ${this.lastName} (age:${this.age}, email ${this.email})`;
+};
+
+function createPeople() {
+    return [
+        new Person('Maria', 'Petrova', 22, 'mp@yahoo.com'),
+        new Person('Maria'),
+        new Person('Maria', 'Petrova'),
+        new Person('Maria', 'Petrova', 22)
+    ];
+}
+const people = createPeople();
+people.forEach((person) => {
+    console.log(person.toString())
+});
+
+
+-----------------------
+
+
+const result = (function () {
+    const validFaces = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
+    function Suits() {
+        Suits.SPADES = '♠';
+        Suits.HEARTS = '♥';
+        Suits.DIAMONDS = '♦';
+        Suits.CLUBS = '♣';
+
+    }
+    class Card {
+        constructor(face, suit) {
+            this._suit = null;
+            this._face = null;
+
+            this.face = face;
+            this.suit = suit;
+
+        }
+
+        get suit() {
+            return this._suit;
+        }
+
+        set suit(val) {
+            if (!Object.values(Suits).includes(val)) {
+                throw new Error(`Invalid Suit`);
+            }
+
+            this._suit = val;
+        }
+        get face() {
+            return this.face;
+        }
+
+        set face(val) {
+            if (!validFaces.includes(val)) {
+                throw new Error(`Invalid card face: ${val}`);
+            }
+
+            this.face = val;
+        }
+    }
+
+    return {
+        Suits: Suits,
+        Card: Card
+    }
+}());
+
+let Card = result.Card;
+let Suits = result.Suits;
+
+let card = new Card("Q", Suits.CLUBS);
+
+
+
+------------------------
+
+
+class Request {
+    constructor(method, uri, version, message, response = undefined, fulfilled = false) {
+        this.method = method;
+        this.uri = uri;
+        this.version = version;
+        this.message = message;
+        this.response = response;
+        this.fulfilled = fulfilled;
+    }
+}
+let myData = new Request('GET', 'http://google.com', 'HTTP/1.1', '');
+console.log(myData);
+
+
+
+------------------------
+
+
+function solve(arr, criteria) {
+    class Ticket {
+        constructor(destination, price, status) {
+            this.destination = destination;
+            this.price = +price;
+            this.status = status;
+        }
+    }
+    let tickets = [];
+    for (let line of arr) {
+        let [destination, price, status] = line.split('|');
+        let ticket = new Ticket(destination, price, status);
+        tickets.push(ticket);
+    }
+
+    return tickets.sort((a, b) => a[criteria] > b[criteria]);
+}
+console.log(solve(['Philadelphia|94.20|available',
+        'New York City|95.99|available',
+        'New York City|95.99|sold',
+        'Boston|126.20|departed'
+    ],
+    'destination'
+));
+
+
+-------------------
+
+
+class Rat {
+    constructor(name) {
+        this.name = name;
+        this.unitedRats = [];
+    }
+    getRats() {
+        return this.unitedRats;
+    }
+
+    unite(otherRat) {
+        if (otherRat instanceof Rat) {
+            this.unitedRats.push(otherRat);
+        }
+    }
+    toString() {
+        let result = this.name + '\n';
+        for (let rat of this.unitedRats) {
+            result += `## ${rat.name}` + '\n';
+        }
+        return result.trim();
+    }
+
+}
+let test = new Rat("Pesho");
+console.log(test.toString()); //Pesho
+
+console.log(test.getRats()); //[]
+
+test.unite(new Rat("Gosho"));
+test.unite(new Rat("Sasho"));
+console.log(test.getRats());
+//[ Rat { name: 'Gosho', unitedRats: [] },
+//  Rat { name: 'Sasho', unitedRats: [] } ]
+
+console.log(test.toString());
+// Pesho
+// ##Gosho
+// ##Sasho
+
+
+------------------
+
+
+class Stringer {
+    constructor(innerString, innerLength) {
+        this.innerString = innerString;
+        this.innerLength = innerLength;
+    }
+
+    get innerLength() {
+        return this._innerLength;
+    }
+    set innerLength(innerLength) {
+        if (innerLength < 0) {
+            this._innerLength = 0;
+        } else {
+            this._innerLength = innerLength;
+        }
+    }
+    increase(length) {
+        this.innerLength += length;
+    }
+    decrease(length) {
+        this.innerLength -= length;
+    }
+    toString() {
+        if (this.innerString.length > this.innerLength) {
+            return this.innerString.substring(0, this.innerLength) + "...";
+        }
+        return this._innerLength.innerString;
+    }
+
+}
+let test = new Stringer("Test", 5);
+console.log(test.toString()); //Test
+
+test.decrease(3);
+console.log(test.toString()); //Te...
+
+test.decrease(5);
+console.log(test.toString()); //...
+
+test.increase(4);
+console.log(test.toString()); //Test
+
+
+----------------
+
+
+class CheckingAccount {
+    constructor(clientId, email, firstName, lastName) {
+        this.clientId = clientId;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    get clientId() {
+        return this._clientId;
+    }
+    set clientId(value) {
+        if (!/^\d{6}$/.test(value)) {
+            throw new TypeError("Client ID must be a 6-digit number");
+        }
+        this._clientId = value;
+    }
+
+    get email() {
+        return this._email;
+    }
+    set email(value) {
+        if (!/^[a-zA-Z0-9]{1,}@[a-z.]+$/.test(value)) {
+            throw new TypeError("Invalid e-mail");
+        }
+    }
+
+    get firstName() {
+        return this._firstName;
+    }
+    set firstName(value) {
+        if (value.length < 3 || value.length > 20) {
+            throw new TypeError("First name must be between 3 and 20 characters long")
+        }
+        if (!/^[a-zA-Z]{3,20}$/.test(value)) {
+            throw new TypeError("First name must contain only Latin characters");
+        }
+        this._firstName = value;
+    }
+    get lastName() {
+        return this._lastName;
+    }
+    set lastName(value) {
+        if (value.length < 3 || value.length > 20) {
+            throw new TypeError("Last name must be between 3 and 20 characters long")
+        }
+        if (!/^[a-zA-Z]{3,20}$/.test(value)) {
+            throw new TypeError("Last name must contain only Latin characters");
+        }
+        this._lastName = value;
+    }
+}
+let acc = new CheckingAccount('1314', 'ivan@some.com', 'Ivan', 'Petrov');
+
+
+----------------
+
+(function () {
+    let id = 0;
+    return class Extensible {
+        constructor() {
+            this.id = id++;
+        }
+
+        extend(template) {
+            for (let prop in template) {
+                if (typeof template[prop] === "function") {
+                    Extensible.prototype[prop] = template[prop]
+                } else {
+                    this[prop] = template[prop];
+                }
+            }
+        }
+    }
+})();
+
+
+--------------------
+
+
+function melons() {
+    class Melon {
+        constructor(weight, melonSort) {
+            if (new.target === Melon) {
+                throw new TypeError("Abstract class cannot be instantiated directly");
+            }
+            this.weight = weight;
+            this.melonSort = melonSort;
+            this._elementIndex = this.weight * this.melonSort.length;
+            this.element = "";
+        }
+
+        get elementIndex() {
+            return this._elementIndex;
+        }
+        toString() {
+            return `Element: ${this.element}\nSort: ${this.melonSort}\nElement Index: ${this.elementIndex}`;
+        }
+
+    }
+    class Watermelon extends Melon {
+        constructor(weight, melonSort) {
+            super(weight, melonSort);
+            this.element = "Water";
+        }
+    }
+    class Airmelon extends Melon {
+        constructor(weight, melonSort) {
+            super(weight, melonSort);
+            this.element = "Air";
+        }
+    }
+    class Firemelon extends Melon {
+        constructor(weight, melonSort) {
+            super(weight, melonSort);
+            this.element = "Fire";
+        }
+    }
+    class Earthmelon extends Melon {
+        constructor(weight, melonSort) {
+            super(weight, melonSort);
+            this.element = "Earth";
+        }
+    }
+
+    class Melolemonmelon extends Firemelon {
+        constructor(weight, melonSort) {
+            super(weight, melonSort);
+            this.element = "Water";
+            this.elements = ["Fire", "Earth", "Air", "Water"];
+            this.eIndex = 0;
+        }
+        morph() {
+            this.element = this.elements[this.eIndex++ % 4];
+        }
+
+    }
+    return {
+        Melon,
+        Earthmelon,
+        Firemelon,
+        Airmelon,
+        Melolemonmelon
+    }
+}

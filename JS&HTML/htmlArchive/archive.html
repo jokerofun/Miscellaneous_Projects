@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+
+        td, th { background: #DDD; padding: 5px 10px }
+                
+                input[type='text'] { width: 60px }
+                
+                a { margin-left: 5px }
+                
+                </style>
+
+</head>
+
+<body>
+    <table id="countriesTable">
+
+        <tr>
+            <th>Country</th>
+            <th>Capital</th>
+            <th>Action</th>
+        </tr>
+
+        <tr>
+            <td><input type="text" id="newCountryText" /></td>
+
+            <td><input type="text" id="newCapitalText" /></td>
+
+            <td><a href="#" id="createLink">[Create]</a></td>
+
+        </tr>
+
+    </table>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        $('countriesTable tr:last-child td:last-child').on('click', 'a', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const $target = $(e.target);
+            const $tr = $target.parent().parent();
+
+            if ($target.text().indexOf('Delete') > -1) {
+                $tr.fadeOut();
+            } else if ($target.text().indexOf('Up') > -1) {
+                $tr.insertBefore($tr.prev());
+            } else if ($target.text().indexOf('Delete') > -1) {
+                $tr.insertAfter($tr.next());
+            }
+        })
+
+
+        $('#CreateLink').on('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        const countryName = $('#newCountryText').val();
+        const capitalName = $('#newCapitalText').val();
+
+        $(
+            `<tr style='display: none'><td>${countryName}</td></tr><tr><td>${capitalName}</td></tr><tr><a href='#'>Up</a><a href='#'>Down</a><a href='#'>Delete</a><td></td></tr>`
+        ).appendTo(
+            '#countriesTable');
+        $('countriesTable tr:last-child').fadeIn();
+
+
+        function remove(target) {
+            $(target).parent().parent().remove();
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+----------------------
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Selectable Towns</title>
+    <style>
+        li {
+            display: inline-block;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        ul {
+            padding: 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+
+<body>
+    <h2>Towns</h2>
+    <ul id="items">
+        <li>Sofia</li>
+        <li>Varna</li>
+        <li>Plovdiv</li>
+        <li>Bourgas</li>
+        <li>Rousse</li>
+    </ul>
+    <button id="showTownsButton">Show Towns</button>
+    <div id="selectedTowns"></div>
+
+    <script>
+        function attachEvents() {
+            const $elements = $('#items li');
+            $elements.attr('data-selected', false)
+
+            $elements.on('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if ($(e.target).attr('data-selected') === 'true') {
+                    $(e.target).attr('data-selected', false);
+                    $(e.target).css('background-color', '#fff');
+                } else {
+                    $(e.target).attr('data-selected', true);
+                    $(e.target).css('background-color', '#ddd');
+                }
+            });
+
+            $('#showTownsButton').on('click', (e) => {
+                const selected = $("#items li[data-selected='true']")
+                    .toArray()
+                    .map((el) => el.innerText)
+                    .join(', ');
+
+                $('#selectedTowns').text(selected);
+            })
+
+        }
+    </script>
+
+    <script>
+        $(attachEvents())
+    </script>
+
+</body>
+
+</html>
+
+
+----------------------
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Timer</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+        crossorigin="anonymous"></script>
+    <style>
+        #timer {
+            font-size: 5em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="timer">
+        <span id="hours" class="timer">00</span>:
+        <span id="minutes" class="timer">00</span>:
+        <span id="seconds" class="timer">00</span>
+        <button id="start-timer">Start</button>
+        <button id="stop-timer">Stop</button>
+    </div>
+    <script src="timer.js"></script>
+    <script>
+        window.onload = function () {
+            timer();
+        }
+    </script>
+</body>
+
+</html>
+
+----------------------
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Generator</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-CueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+
+    </div>
+<script src="book-generator.js"></script>
+<script>
+    window.onload = function () {
+    createBook("#wrapper", "Alice in Wonderland", "Lewis Carroll", 1111);
+}
+</script>
+</body>
+</html>
+
+
+----------------------
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ArmageDOM</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.mi.js"></script>
+    <script src="ArmageDom.js"></script>
+</head>
+<body>
+<div id="target">
+    <div class="nested target">
+        <p>This is some text</p>
+    </div>
+    <div class="target">
+        <p>Empty div</p>
+    </div>
+    <div class="inside">
+        <span class="nested">Some more text</span>
+        <span class="target">Some more text</span>
+    </div>
+</div>
+</body>
+</html>
+
